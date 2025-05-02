@@ -21,9 +21,7 @@ namespace KezdoCsapat.Controllers
             }
 
             return Ok(new
-            {
-                Formations = formationsList
-            });
+            {formations = formationsList});
         }
 
         private Formation BuildFormation(string formationName, List<Player> players)
