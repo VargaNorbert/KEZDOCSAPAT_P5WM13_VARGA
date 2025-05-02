@@ -1,54 +1,67 @@
-async function generateFormations() {
-    const dummyPlayers = [
-        { name: "Játékos 1", position: "GK" },
-        { name: "Játékos 2", position: "DF" },
-        { name: "Játékos 3", position: "DF" },
-        { name: "Játékos 4", position: "DF" },
-        { name: "Játékos 5", position: "DF" },
-        { name: "Játékos 6", position: "MF" },
-        { name: "Játékos 7", position: "MF" },
-        { name: "Játékos 8", position: "MF" },
-        { name: "Játékos 9", position: "FW" },
-        { name: "Játékos 10", position: "FW" },
-        { name: "Játékos 11", position: "FW" }
-    ];
+document.getElementById('generateBtn').addEventListener('click', function () {
+    const fileInput = document.getElementById('jsonFile');
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = '';
 
-    const response = await fetch('http://localhost:5000/api/formation/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dummyPlayers)
-    });
+    if (fileInput.files.length === 0) {
+        showMessage('Kérlek válassz ki egy JSON fájlt!', 'danger');
+        return;
+    }
 
-    const data = await response.json();
-    displayResults(data);
-}
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const jsonData = JSON.parse(e.target.result);
 
-function getCardColor(score) {
-    if (score >= 80) return "bg-success text-white";
-    if (score >= 60) return "bg-warning";
-    return "bg-danger text-white";
-}
+            if (!Array.isArray(jsonData)) {
+                showMessage('Hiba: A JSON nem egy tömb!', 'danger');
+                return;
+            }
 
-function displayResults(results) {
-    const container = document.getElementById("results");
-    container.innerHTML = "";
+            const playerCount = jsonData.length;
+            if (playerCount <= 11 || playerCount >= 15) {
+                showMessage(`Hiba: A játékosok száma ${playerCount}, de 11 és 15 között kell lennie!`, 'danger');
+                return;
+            }
 
-    results.forEach(result => {
-        const div = document.createElement("div");
-        div.className = "col-md-4 mb-3";
+            const allValid = jsonData.every(player =>
+                player.hasOwnProperty('Name') && player.hasOwnProperty('Position')
+            );
 
-        div.innerHTML = `
-            <div class="card ${getCardColor(result.goodnessScore)}">
-                <div class="card-body">
-                    <h5 class="card-title">${result.FormationName}</h5>
-                    <p class="card-text">Jóság: ${result.goodnessScore.toFixed(1)}</p>
-                    <ul>
-                        ${result.startingEleven.map(p => `<li>${p.name} - ${p.position}</li>`).join("")}
-                    </ul>
-                </div>
-            </div>
-        `;
+            if (!allValid) {
+                showMessage('Hiba: Minden játékosnak tartalmaznia kell Name és Position mezõt!', 'danger');
+                return;
+            }
 
-        container.appendChild(div);
-    });
+            fetch('http://localhost:5000/api/players', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('A szerver hibát jelzett');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Válasz a szervertõl:', data);
+                    showMessage('Sikeres küldés a szerverre!', 'success');
+                })
+                .catch(error => {
+                    console.error('Hiba a küldés közben:', error);
+                    showMessage('Hiba a szerverrel való kommunikáció közben!', 'danger');
+                });
+
+        } catch (error) {
+            showMessage('Hiba: Nem érvényes JSON fájl!', 'danger');
+        }
+    };
+    reader.readAsText(file);
+});
+
+function showMessage(message, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
 }

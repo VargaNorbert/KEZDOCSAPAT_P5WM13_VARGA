@@ -1,0 +1,60 @@
+[
+  {
+    "Name": "Danilovic Branislav",
+    "Position": "GK"
+  },
+  {
+    "Name": "Odyntsov Artem",
+    "Position": "GK"
+  },
+
+  {
+    "Name": "Chorbadzhiyski Bozhidar",
+    "Position": "DF"
+  },
+  {
+    "Name": "Lund Marco",
+    "Position": "DF"
+  },
+  {
+    "Name": "Sanicanin Sinisa",
+    "Position": "DF"
+  },
+  {
+    "Name": "Szatm�ri Csaba",
+    "Position": "DF"
+  },
+  {
+    "Name": "Klimovich Vladislav",
+    "Position": "MF"
+  },
+  {
+    "Name": "Tiehi Christ",
+    "Position": "MF"
+  },
+  {
+    "Name": "Vallejo Alex",
+    "Position": "MF"
+  },
+  {
+    "Name": "Acolatse Elton",
+    "Position": "MF"
+  },
+  {
+    "Name": "Gera Daniel",
+    "Position": "MF"
+  },
+
+  {
+    "Name": "Edomwonyi Bright",
+    "Position": "FW"
+  },
+  {
+    "Name": "Pozeg Rudi",
+    "Position": "FW"
+  },
+  {
+    "Name": "Rakonjac Marko",
+    "Position": "FW"
+  }
+]
