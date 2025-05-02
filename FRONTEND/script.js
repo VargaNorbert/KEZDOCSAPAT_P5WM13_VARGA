@@ -48,7 +48,7 @@ document.getElementById('generateBtn').addEventListener('click', function () {
                 .then(data => {
                     console.log('Válasz a szervertõl:', data);
                     showMessage('Sikeres küldés a szerverre!', 'success');
-                    renderFormations(data.formations);
+                    renderFormations(data.Formations);
                 })
                 .catch(error => {
                     console.error('Hiba a küldés közben:', error);
