@@ -46,9 +46,9 @@ document.getElementById('generateBtn').addEventListener('click', function () {
                     return response.json();
                 })
                 .then(data => {
+                    renderFormations(data.Formations);
                     console.log('Válasz a szervertõl:', data);
                     showMessage('Sikeres küldés a szerverre!', 'success');
-                    renderFormations(data.Formations);
                 })
                 .catch(error => {
                     console.error('Hiba a küldés közben:', error);
@@ -68,6 +68,12 @@ function showMessage(message, type) {
 }
 
 function renderFormations(formations) {
+    if (!Array.isArray(formations)) {
+        console.warn('Formations is not an array:', formations);
+        showMessage('Hiba: A szerver nem küldött érvényes formációkat!', 'danger');
+        return;
+    }
+
     const container = document.getElementById('formationsContainer');
     container.innerHTML = '';
 
