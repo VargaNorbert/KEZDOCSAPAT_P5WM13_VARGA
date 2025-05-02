@@ -48,6 +48,7 @@ document.getElementById('generateBtn').addEventListener('click', function () {
                 .then(data => {
                     console.log('Válasz a szervertõl:', data);
                     showMessage('Sikeres küldés a szerverre!', 'success');
+                    renderFormations(data.formations);
                 })
                 .catch(error => {
                     console.error('Hiba a küldés közben:', error);
@@ -64,4 +65,26 @@ document.getElementById('generateBtn').addEventListener('click', function () {
 function showMessage(message, type) {
     const messageDiv = document.getElementById('message');
     messageDiv.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+}
+
+function renderFormations(formations) {
+    const container = document.getElementById('formationsContainer');
+    container.innerHTML = '';
+
+    formations.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'card mb-3';
+        card.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${f.formationName}</h5>
+                <p><strong>Goodness:</strong> ${f.goodness}%</p>
+                <p><strong>GK:</strong> ${f.gk.map(p => p.name).join(', ')}</p>
+                <p><strong>DF:</strong> ${f.df.map(p => p.name).join(', ')}</p>
+                <p><strong>MF:</strong> ${f.mf.map(p => p.name).join(', ')}</p>
+                <p><strong>FW:</strong> ${f.fw.map(p => p.name).join(', ')}</p>
+                <p><strong>SUB:</strong> ${f.sub.map(p => p.name).join(', ')}</p>
+            </div>
+        `;
+        container.appendChild(card);
+    });
 }
