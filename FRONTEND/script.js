@@ -46,8 +46,13 @@ document.getElementById('generateBtn').addEventListener('click', function () {
                     return response.json();
                 })
                 .then(data => {
-                    renderFormations(data.Formations);
                     console.log('Válasz a szervertõl:', data);
+                    if (data.formations) {
+                        renderFormations(data.formations);
+                    } else {
+                        console.warn('A szerver válasza nem tartalmaz formations mezõt:', data);
+                        showMessage('Hiba: A szerver válasza nem tartalmaz formációkat!', 'danger');
+                    }
                     showMessage('Sikeres küldés a szerverre!', 'success');
                 })
                 .catch(error => {
