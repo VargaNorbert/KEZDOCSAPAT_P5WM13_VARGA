@@ -29,6 +29,8 @@ namespace KezdoCsapat
             // Map controller endpoints
             app.MapControllers();
 
+            app.MapGet("/", () => "Hello World!");
+
             app.Run();
         }
     }
