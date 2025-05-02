@@ -12,15 +12,6 @@ namespace KezdoCsapat.Controllers
         [HttpPost]
         public IActionResult PostPlayers([FromBody] List<Player> players)
         {
-            if (players == null || players.Count == 0)
-                return BadRequest("No players received.");
-
-            if (players.Any(p => string.IsNullOrWhiteSpace(p.Name) || string.IsNullOrWhiteSpace(p.Position)))
-                return BadRequest("Every player must have a Name and Position.");
-
-            if (players.Count < 11 || players.Count > 15)
-                return BadRequest($"The number of players must be between 11 and 15. Received: {players.Count}");
-
             var formationsList = new List<Formation>();
 
             foreach (var form in formations)
@@ -31,7 +22,6 @@ namespace KezdoCsapat.Controllers
 
             return Ok(new
             {
-                Message = "Formations generated successfully.",
                 Formations = formationsList
             });
         }
