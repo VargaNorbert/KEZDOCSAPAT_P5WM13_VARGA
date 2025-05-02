@@ -29,7 +29,11 @@ namespace KezdoCsapat.Controllers
                 formationsList.Add(formation);
             }
 
-            return Ok(formationsList);
+            return Ok(new
+            {
+                Message = "Formations generated successfully.",
+                Formations = formationsList
+            });
         }
 
         private Formation BuildFormation(string formationName, List<Player> players)
