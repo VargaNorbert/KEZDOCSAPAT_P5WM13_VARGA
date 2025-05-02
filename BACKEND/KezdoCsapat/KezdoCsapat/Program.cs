@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace KezdoCsapat
 {
@@ -9,7 +10,7 @@ namespace KezdoCsapat
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services
+            // Add services to the container
             builder.Services.AddControllers();
             builder.Services.AddCors(options =>
             {
@@ -23,13 +24,20 @@ namespace KezdoCsapat
 
             var app = builder.Build();
 
-            // Use CORS
+            // Configure the HTTP request pipeline
+
+            // Enable CORS
             app.UseCors();
 
-            // Map controller endpoints
-            app.MapControllers();
+            // Use routing
+            app.UseRouting();
 
-            app.MapGet("/", () => "Hello World!");
+            // Map controller endpoints
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapGet("/", () => "Hello World!");
+            });
 
             app.Run();
         }

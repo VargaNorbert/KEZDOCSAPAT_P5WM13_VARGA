@@ -8,6 +8,6 @@ namespace KezdoCsapat.Models
         public List<Player> MF { get; set; } = new();
         public List<Player> FW { get; set; } = new();
         public List<Player> SUB { get; set; } = new();
-        public double goodness { get; set; };
+        public double goodness { get; set; }
     }
 }
