@@ -26,7 +26,7 @@ namespace KezdoCsapat.Controllers
 
         private Formation BuildFormation(string formationName, List<Player> players)
         {
-            var formation = new Formation { FormationName = $"{formationName[0]}-{formationName[1]}-{formationName[2]};
+            var formation = new Formation { FormationName = $"{formationName[0]}-{formationName[1]}-{formationName[2]}"};
 
             int gkCount = 1;
             int dfCount = int.Parse(formationName[0].ToString());
