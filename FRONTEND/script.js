@@ -80,22 +80,34 @@ function renderFormations(formations) {
     }
 
     const container = document.getElementById('formationsContainer');
-    container.innerHTML = '';
+    container.innerHTML = '<div class="row g-3"></div>';
+    const row = container.querySelector('.row');
 
     formations.forEach(f => {
+        let colorClass = '';
+        if (f.goodness > 95) {
+            colorClass = 'bg-success text-white';
+        } else if (f.goodness > 75) {
+            colorClass = 'bg-warning';
+        } else {
+            colorClass = 'bg-danger text-white';
+        }
+
         const card = document.createElement('div');
-        card.className = 'card mb-3';
+        card.className = 'col-md-4';
         card.innerHTML = `
-            <div class="card-body">
-                <h5 class="card-title">${f.formationName}</h5>
-                <p><strong>Goodness:</strong> ${f.goodness}%</p>
-                <p><strong>GK:</strong> ${f.gk.map(p => p.name).join(', ')}</p>
-                <p><strong>DF:</strong> ${f.df.map(p => p.name).join(', ')}</p>
-                <p><strong>MF:</strong> ${f.mf.map(p => p.name).join(', ')}</p>
-                <p><strong>FW:</strong> ${f.fw.map(p => p.name).join(', ')}</p>
-                <p><strong>SUB:</strong> ${f.sub.map(p => p.name).join(', ')}</p>
+            <div class="card ${colorClass} h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center">${f.formationName}</h5>
+                    <p><strong>Goodness:</strong> ${f.goodness}%</p>
+                    <p><strong>GK:</strong> ${f.gk.map(p => p.name).join(', ')}</p>
+                    <p><strong>DF:</strong> ${f.df.map(p => p.name).join(', ')}</p>
+                    <p><strong>MF:</strong> ${f.mf.map(p => p.name).join(', ')}</p>
+                    <p><strong>FW:</strong> ${f.fw.map(p => p.name).join(', ')}</p>
+                    <p><strong>SUB:</strong> ${f.sub.map(p => p.name).join(', ')}</p>
+                </div>
             </div>
         `;
-        container.appendChild(card);
+        row.appendChild(card);
     });
 }
