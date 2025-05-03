@@ -20,6 +20,8 @@ namespace KezdoCsapat.Controllers
                 formationsList.Add(formation);
             }
 
+            formationsList = formationsList.OrderByDescending(f => f.goodness).ToList();
+
             return Ok(new
             {formations = formationsList});
         }
