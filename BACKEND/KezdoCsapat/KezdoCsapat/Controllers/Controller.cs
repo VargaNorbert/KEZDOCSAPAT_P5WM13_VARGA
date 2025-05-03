@@ -26,7 +26,7 @@ namespace KezdoCsapat.Controllers
 
         private Formation BuildFormation(string formationName, List<Player> players)
         {
-            var formation = new Formation { FormationName = formationName };
+            var formation = new Formation { FormationName = $"{formationName[0]}-{formationName[1]}-{formationName[2]};
 
             int gkCount = 1;
             int dfCount = int.Parse(formationName[0].ToString());
@@ -42,10 +42,8 @@ namespace KezdoCsapat.Controllers
 
             int selectedCount = formation.GK.Count + formation.DF.Count + formation.MF.Count + formation.FW.Count;
 
-            // Fill subs from remaining players
             formation.SUB = availablePlayers.Take(players.Count - selectedCount).ToList();
 
-            // Calculate goodness
             double totalNeeded = gkCount + dfCount + mfCount + fwCount;
             double correctlyFilled =
                 formation.GK.Count(p => p.Position == "GK") +
@@ -62,7 +60,6 @@ namespace KezdoCsapat.Controllers
         {
             var selected = players.Where(p => p.Position == position).Take(count).ToList();
 
-            // If not enough players in that position, fill with any available
             if (selected.Count < count)
             {
                 var needed = count - selected.Count;
@@ -70,7 +67,6 @@ namespace KezdoCsapat.Controllers
                 selected.AddRange(fillers);
             }
 
-            // Remove selected players from available pool
             foreach (var player in selected)
                 players.Remove(player);
 
